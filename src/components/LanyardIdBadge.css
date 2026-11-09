@@ -1,0 +1,369 @@
+/* ========================================================
+   LANYARD 3D PHYSICS ID BADGE (EXTRA LARGE & PROMINENT)
+   Authentic BatStateU Lanyard + Eliza Maroon ID Badge
+   Clean, minimalist, zero clutter (no buttons, no text banners)
+   ======================================================== */
+
+.lanyard-showcase-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Line Mount Ring (Sits right on the horizontal section divider line) */
+.lanyard-line-ring {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 12px;
+  background: #3d0a0a;
+  border: 2px solid #23221e;
+  border-radius: 999px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  z-index: 25;
+  pointer-events: none;
+}
+
+/* Main 3D Physics Viewport */
+.lanyard-physics-viewport {
+  position: relative;
+  width: 480px;
+  height: 720px;
+  perspective: 1400px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.lanyard-physics-viewport:active {
+  cursor: grabbing;
+}
+
+/* Dynamic Curved Lanyard SVG Canvas */
+.lanyard-strap-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
+  overflow: visible;
+}
+
+/* ========================================================
+   BUCKLE, TAB & METAL CLASP ASSEMBLY
+   Origin (0,0) is pinned mathematically to the ID's punch hole
+   ======================================================== */
+.lanyard-joint-assembly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 22;
+  will-change: transform;
+}
+
+/* 1. Black Molded Quick-Release Buckle (sits at y: -64px) */
+.lanyard-buckle-module {
+  position: absolute;
+  top: -64px;
+  left: 0;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.42));
+}
+
+.buckle-top-bar {
+  width: 36px;
+  height: 5px;
+  background: #2b2d31;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid #141517;
+}
+
+.buckle-main-case {
+  position: relative;
+  width: 44px;
+  height: 21px;
+  background: linear-gradient(180deg, #242528 0%, #151618 100%);
+  border: 1.2px solid #0f1011;
+  border-radius: 4px 4px 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buckle-release-side {
+  position: absolute;
+  top: 4px;
+  width: 4.5px;
+  height: 11px;
+  background: #0f1011;
+  border-radius: 1.5px;
+}
+
+.buckle-release-side.left {
+  left: -3px;
+}
+
+.buckle-release-side.right {
+  right: -3px;
+}
+
+.buckle-center-groove {
+  width: 18px;
+  height: 3px;
+  background: #0f1011;
+  border-radius: 1.5px;
+}
+
+/* 2. Red Fabric Tab with BatStateU Circular Seal (sits at y: -41px) */
+.lanyard-tab-module {
+  position: absolute;
+  top: -41px;
+  left: 0;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.tab-fabric-ribbon {
+  position: relative;
+  width: 26px;
+  height: 27px;
+  background: linear-gradient(180deg, #3d0a0a 0%, #5c1212 50%, #2a0505 100%);
+  border-radius: 3px;
+  border: 1px solid #1f0404;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-seal-emblem {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #f0e6d6;
+  border: 1.2px solid #c4a97a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 1.5px rgba(0, 0, 0, 0.4);
+}
+
+.seal-inner-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #3d0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seal-spartan-shield {
+  width: 6px;
+  height: 7px;
+  background: #c4a97a;
+  clip-path: polygon(50% 0%, 100% 25%, 85% 100%, 50% 85%, 15% 100%, 0% 25%);
+}
+
+.tab-metal-rivet {
+  position: absolute;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #9ca3af 60%, #4b5563 100%);
+  border: 0.6px solid #374151;
+}
+
+/* 3. Chrome Lobster Swivel Clasp Hook */
+/* The hook curves down and passes into y: 0 (the punch hole) */
+.lanyard-metal-clasp-hook {
+  position: absolute;
+  top: -16px;
+  left: 0;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.clasp-swivel-ring {
+  width: 17px;
+  height: 8px;
+  border-radius: 4px;
+  border: 2.2px solid #d1d5db;
+  background: transparent;
+  box-shadow: inset 0 0.8px 1.5px rgba(255, 255, 255, 0.85);
+}
+
+.clasp-jaw-body {
+  position: relative;
+  width: 13px;
+  height: 19px;
+  margin-top: -1.5px;
+}
+
+.clasp-trigger-lever {
+  position: absolute;
+  top: 1.5px;
+  right: -4.5px;
+  width: 6px;
+  height: 4.5px;
+  background: #9ca3af;
+  border-radius: 1.5px;
+  border: 0.6px solid #4b5563;
+}
+
+.clasp-hook-beak {
+  width: 12px;
+  height: 18px;
+  border: 2.8px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(156, 163, 175, 0.65) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* ========================================================
+   DYNAMIC FLOOR / WALL SHADOW
+   ======================================================== */
+.lanyard-card-shadow {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--shadow-scale, 1));
+  width: 300px;
+  height: 32px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, var(--shadow-opacity, 0.32)) 0%, rgba(0, 0, 0, 0) 70%);
+  border-radius: 50%;
+  filter: blur(var(--shadow-blur, 24px));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ========================================================
+   3D DOUBLE-SIDED ID CARD (EXTRA LARGE SCALE)
+   Transform origin: 50% 29px (Exact Punch Hole Location!)
+   Zero white rectangular background anywhere!
+   ======================================================== */
+.lanyard-3d-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 466px;
+  transform-origin: 50% 29px; /* ROTATES RIGHT AT THE PUNCH HOLE! */
+  transform-style: preserve-3d;
+  will-change: transform;
+  z-index: 10;
+  cursor: grab;
+  background: transparent !important;
+  border: none !important;
+  outline: none;
+}
+
+.lanyard-3d-card:active {
+  cursor: grabbing;
+}
+
+/* Card Faces: Front & Back */
+.card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible;
+}
+
+.card-face-front {
+  transform: rotateY(0deg);
+}
+
+.card-face-back {
+  transform: rotateY(180deg);
+}
+
+/* Transparent Maroon ID Badge Image with Form-fitting Drop Shadow */
+.id-photo-surface {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.36)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.22));
+}
+
+/* Subtle Realistic Glass / Lamination Sheen */
+.card-holo-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.03) 35%,
+    rgba(255, 235, 200, 0.08) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 12;
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN (Mobile & Tablets)
+   ======================================================== */
+@media (max-width: 600px) {
+  .lanyard-physics-viewport {
+    width: 320px;
+    height: 560px;
+  }
+
+  .lanyard-3d-card {
+    width: 270px;
+    height: 350px;
+    transform-origin: 50% 22px;
+  }
+
+  .id-photo-surface {
+    filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.18));
+  }
+}

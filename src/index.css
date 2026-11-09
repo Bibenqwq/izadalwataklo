@@ -1,0 +1,58 @@
+:root {
+  /* Color Palette: White-Gray, Dark-Gray, Dark-Red */
+  --color-white-gray: #f4f4f3;
+  --color-white-gray-light: #fafaf9;
+  --color-white-gray-dark: #e8e8e6;
+  --color-white-gray-border: #dededb;
+  
+  --color-dark-gray: #18191b;
+  --color-dark-gray-soft: #24262a;
+  --color-dark-gray-muted: #52555c;
+  --color-dark-gray-light: #737780;
+  
+  --color-dark-red: #7f1616;
+  --color-dark-red-hover: #981d1d;
+  --color-dark-red-light: rgba(127, 22, 22, 0.08);
+  --color-dark-red-border: rgba(127, 22, 22, 0.25);
+  
+  /* Pill & Button Colors */
+  --pill-bg: #eddca8;
+  --pill-bg-hover: #e3cf96;
+  --pill-text: #2c271b;
+
+  /* Typography: strictly Monospace */
+  --font-mono: 'Space Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-mono);
+  background-color: var(--color-white-gray);
+  color: var(--color-dark-gray);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

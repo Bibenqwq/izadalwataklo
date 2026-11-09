@@ -1,0 +1,1988 @@
+/* ========================================================
+   iza.dalwa.taklo - Journal Editing Website System
+   Palette: White-Gray, Dark-Gray, Dark-Red
+   Typography: Strictly Monospace (Space Mono & JetBrains Mono)
+   ======================================================== */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white-gray);
+  color: var(--color-dark-gray);
+  position: relative;
+  font-family: var(--font-mono);
+}
+
+/* ========================================================
+   FILM GRAIN / NOISE TEXTURE (Applied across the entire website)
+   ======================================================== */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ========================================================
+   TOP NAVIGATION
+   Seamless Top Header: Left Buttons, Centered Brand Logo, Right Sumulat Button
+   ======================================================== */
+.top-nav-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 24px 36px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Left: Nav Buttons Group (Transparent, no foreground pill/background) */
+.nav-left-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 26px;
+}
+
+.nav-action-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: lowercase;
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-action-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-dark-red);
+  transition: width 0.25s ease;
+}
+
+.nav-action-btn:hover {
+  color: #ffffff;
+}
+
+.nav-action-btn:hover::after {
+  width: 100%;
+}
+
+/* Center: Brand Logo in the middle */
+.nav-center-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-brand-badge {
+  background-color: var(--color-dark-red);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(127, 22, 22, 0.45);
+}
+
+.nav-brand-badge:hover {
+  background-color: #991b1b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(127, 22, 22, 0.55);
+}
+
+/* Right: Invisible Spacer to keep center logo exactly balanced */
+.nav-right-spacer {
+  display: block;
+  pointer-events: none;
+}
+
+/* Role selection and writer password dialog */
+.access-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 15, 15, 0.72);
+  backdrop-filter: blur(5px);
+}
+
+.access-modal {
+  width: min(100%, 460px);
+  position: relative;
+  padding: 36px;
+  background: var(--color-white-gray-light);
+  border: 1px solid var(--color-white-gray-border);
+  border-top: 5px solid var(--color-dark-red);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.access-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--color-dark-gray-muted);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.access-modal-eyebrow {
+  color: var(--color-dark-red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.access-modal h2 {
+  margin: 10px 24px 8px 0;
+  color: var(--color-dark-gray);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.access-modal-description {
+  color: var(--color-dark-gray-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.access-role-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.access-role-button {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--color-dark-gray);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.access-role-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-dark-red);
+  background: #fffdfb;
+}
+
+.access-role-button strong {
+  color: var(--color-dark-red);
+  font-size: 14px;
+}
+
+.access-role-button span {
+  color: var(--color-dark-gray-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.access-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.access-password-form label {
+  color: var(--color-dark-gray);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.access-password-form input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--color-dark-gray);
+  font-size: 14px;
+  outline: none;
+}
+
+.access-password-form input:focus {
+  border-color: var(--color-dark-red);
+  box-shadow: 0 0 0 3px var(--color-dark-red-light);
+}
+
+.access-password-error {
+  color: var(--color-dark-red);
+  font-size: 11px;
+}
+
+.access-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.access-back-button,
+.access-submit-button {
+  padding: 9px 16px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.access-back-button {
+  border: 1px solid var(--color-white-gray-border);
+  background: #ffffff;
+  color: var(--color-dark-gray-muted);
+}
+
+.access-submit-button {
+  border: 1px solid var(--color-dark-red);
+  background: var(--color-dark-red);
+  color: #ffffff;
+}
+
+.access-submit-button:hover {
+  background: var(--color-dark-red-hover);
+}
+
+/* ========================================================
+   HERO SECTION (Full Viewport Homepage Featuring home.jpg)
+   ======================================================== */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 120px 48px clamp(110px, 16vh, 180px);
+}
+
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(12, 13, 16, 0.5) 0%,
+      rgba(12, 13, 16, 0.1) 35%,
+      rgba(12, 13, 16, 0.2) 65%,
+      rgba(12, 13, 16, 0.68) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: #ff8888;
+  background: rgba(18, 19, 22, 0.7);
+  backdrop-filter: blur(6px);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+}
+
+.hero-title {
+  font-size: 52px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.75);
+}
+
+/* ========================================================
+   HERO LOCKUP ROW (Typography on left, button directly beside it)
+   ======================================================== */
+.hero-lockup-row {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 48px;
+  margin: 0 auto;
+  gap: 36px;
+}
+
+.hero-statement {
+  --mono-font-size: clamp(28px, 4.2vw, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.statement-mono {
+  font-family: var(--font-mono);
+  font-size: var(--mono-font-size);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.1;
+  text-transform: lowercase;
+  white-space: nowrap;
+  color: #ffffff;
+  display: block;
+  overflow: visible;
+}
+
+.statement-script {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(44px, 6vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  margin-top: clamp(-18px, -2vw, -10px);
+  margin-left: calc(7.8 * 0.6 * var(--mono-font-size));
+  white-space: nowrap;
+  color: #ffffff;
+  display: block;
+  overflow: visible;
+  padding: 4px 16px 8px 0;
+}
+
+.hero-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .hero-lockup-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 24px;
+    gap: 20px;
+  }
+
+  .hero-button-wrapper {
+    margin-left: calc(7.8 * 0.6 * var(--mono-font-size));
+    margin-bottom: 0;
+  }
+}
+
+.pill-btn {
+  background-color: var(--pill-bg);
+  color: var(--pill-text);
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: 1.6px;
+  padding: 13px 36px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.pill-btn:hover {
+  background-color: #f7e8b6;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.pill-btn-outline {
+  background: rgba(20, 22, 26, 0.7);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.pill-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+/* ========================================================
+   CURVED MAIN CONTAINER
+   ======================================================== */
+.curved-content-wrapper {
+  position: relative;
+  z-index: 30;
+  margin-top: -64px;
+  border-top-left-radius: 46px;
+  border-top-right-radius: 46px;
+  background-color: var(--color-white-gray);
+  padding: 68px 48px 88px;
+  box-shadow: 0 -24px 48px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* SECTION 1: MANUSCRIPT SHOWCASE GRID */
+.section-header {
+  margin-bottom: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  color: var(--color-dark-gray);
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  color: var(--color-dark-gray-muted);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.journal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* SPECIAL FEATURED CARD (CREATE / DRAFT HUB) */
+.journal-card-special {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #1d1e22 0%, #2b2e35 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px;
+  min-height: 350px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.journal-card-special:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.special-badge-tag {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ff7a7a;
+  background: rgba(127, 22, 22, 0.35);
+  border: 1px solid rgba(255, 122, 122, 0.4);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.special-card-body h3 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.special-card-body p {
+  font-size: 12px;
+  color: #a4a8b4;
+  line-height: 1.55;
+}
+
+/* REGULAR JOURNAL MANUSCRIPT CARD */
+.journal-card {
+  background: var(--color-white-gray-light);
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  position: relative;
+}
+
+.journal-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-dark-red-border);
+  box-shadow: 0 10px 24px rgba(127, 22, 22, 0.08);
+}
+
+.journal-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.journal-volume {
+  color: var(--color-dark-gray-light);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.journal-status {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.status-review {
+  background: rgba(127, 22, 22, 0.12);
+  color: var(--color-dark-red);
+}
+
+.status-editing {
+  background: #f7eed2;
+  color: #634b07;
+}
+
+.status-published {
+  background: #d8e8d8;
+  color: #1e5a22;
+}
+
+.journal-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+
+.journal-card-excerpt {
+  font-size: 12px;
+  color: var(--color-dark-gray-muted);
+  line-height: 1.55;
+}
+
+.journal-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--color-dark-gray-light);
+  border-top: 1px dashed var(--color-white-gray-border);
+  padding-top: 14px;
+}
+
+.journal-action-btn {
+  background: transparent;
+  border: 1px solid var(--color-dark-gray);
+  color: var(--color-dark-gray);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.journal-card:hover .journal-action-btn {
+  background: var(--color-dark-red);
+  border-color: var(--color-dark-red);
+  color: #ffffff;
+}
+
+/* ========================================================
+   INTERACTIVE LIVE JOURNAL EDITOR WORKSPACE
+   ======================================================== */
+.editor-workspace {
+  background: #ffffff;
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 24px;
+  padding: 36px 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-white-gray-border);
+  padding-bottom: 18px;
+}
+
+.editor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-dark-red);
+}
+
+.editor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-dark-red);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+.editor-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 11.5px;
+  color: var(--color-dark-gray-muted);
+}
+
+.editor-stats strong {
+  color: var(--color-dark-gray);
+}
+
+.editor-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.editor-title-input {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+  border: none;
+  border-bottom: 1.5px solid transparent;
+  padding: 8px 0;
+  outline: none;
+  font-family: var(--font-mono);
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.editor-title-input:focus {
+  border-bottom-color: var(--color-dark-red);
+}
+
+.editor-textarea {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 14px;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-dark-gray);
+  font-family: var(--font-mono);
+  background: var(--color-white-gray-light);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.editor-textarea:focus {
+  border-color: var(--color-dark-red);
+  background: #ffffff;
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.editor-tools-group {
+  display: flex;
+  gap: 10px;
+}
+
+.tool-chip {
+  background: var(--color-white-gray-dark);
+  color: var(--color-dark-gray);
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tool-chip:hover {
+  background: #d8d8d4;
+}
+
+.tool-chip.active {
+  background: var(--color-dark-gray);
+  color: #ffffff;
+}
+
+.editor-save-btn {
+  background-color: var(--color-dark-red);
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 11px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editor-save-btn:hover {
+  background-color: var(--color-dark-red-hover);
+  transform: translateY(-1px);
+}
+
+/* ========================================================
+   SECTION 2: SPLIT STORY / MANIFESTO (Journal Charter)
+   ======================================================== */
+.split-story-section {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.story-manifesto-card {
+  background-color: #c9d8e6;
+  border-radius: 24px;
+  padding: 60px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.manifesto-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-dark-red);
+}
+
+.manifesto-quote {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #17202a;
+  letter-spacing: -0.4px;
+  max-width: 500px;
+  font-weight: 400;
+}
+
+.manifesto-signature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.manifesto-btn {
+  background: transparent;
+  border: 1.5px solid var(--color-dark-gray);
+  color: var(--color-dark-gray);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.manifesto-btn:hover {
+  background: var(--color-dark-gray);
+  color: #ffffff;
+}
+
+/* RIGHT CARD WITH DIAGONAL GINGHAM TAPE */
+.story-image-card {
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  min-height: 480px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.story-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.story-card-overlay-tag {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(18, 19, 22, 0.85);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.story-card-overlay-tag strong {
+  font-size: 13px;
+  color: #ff8888;
+}
+
+.gingham-tape {
+  position: absolute;
+  top: 20px;
+  right: -24px;
+  width: 140px;
+  height: 34px;
+  transform: rotate(38deg);
+  background: repeating-linear-gradient(45deg,
+      rgba(70, 90, 75, 0.8),
+      rgba(70, 90, 75, 0.8) 8px,
+      rgba(255, 255, 255, 0.85) 8px,
+      rgba(255, 255, 255, 0.85) 16px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ========================================================
+   SECTION 3: THREE EDITORIAL PILLARS
+   ======================================================== */
+.values-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.value-item {
+  background: var(--color-white-gray-light);
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 18px;
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.value-tag {
+  color: var(--color-dark-red);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.value-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+}
+
+.value-desc {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--color-dark-gray-muted);
+}
+
+/* ========================================================
+   SECTION 4: NEWSLETTER / CALL FOR PAPERS
+   ======================================================== */
+.newsletter-banner {
+  background-color: var(--color-dark-gray);
+  border-radius: 24px;
+  padding: 54px 40px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+}
+
+.newsletter-title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+
+.newsletter-title em {
+  color: #ff6464;
+  font-style: normal;
+}
+
+.newsletter-subtitle {
+  font-size: 13px;
+  color: #a4a8b2;
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 12px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.newsletter-input {
+  flex: 1;
+  background: #25272c;
+  border: 1px solid #3d414a;
+  border-radius: 30px;
+  padding: 13px 22px;
+  font-size: 13px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.newsletter-input:focus {
+  border-color: #ff6464;
+}
+
+.newsletter-btn {
+  background-color: var(--color-dark-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.newsletter-btn:hover {
+  background-color: var(--color-dark-red-hover);
+}
+
+/* ========================================================
+   SECTION 5: SOCIAL MEDIA SECTION
+   ======================================================== */
+.social-media-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.social-card {
+  background: var(--color-white-gray-light);
+  border: 1px solid var(--color-white-gray-border);
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--color-dark-gray);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.social-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-dark-red-border);
+  box-shadow: 0 8px 20px rgba(127, 22, 22, 0.08);
+}
+
+.social-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.social-platform {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-dark-red);
+}
+
+.social-handle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+}
+
+.social-arrow {
+  font-size: 16px;
+  color: var(--color-dark-gray-light);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.social-card:hover .social-arrow {
+  transform: translateX(4px);
+  color: var(--color-dark-red);
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.site-footer {
+  background-color: #121315;
+  color: #8a8d96;
+  padding: 52px 48px 36px;
+  border-top: 1px solid #23252a;
+  font-size: 12px;
+}
+
+.footer-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.footer-brand {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.footer-links-group {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: #b0b4be;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #23252a;
+  padding-top: 26px;
+  font-size: 11px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ========================================================
+   TOAST NOTIFICATION
+   ======================================================== */
+.cart-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--color-dark-gray);
+  color: #ffffff;
+  border-left: 4px solid var(--color-dark-red);
+  padding: 16px 24px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  z-index: 100;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================================
+   RESPONSIVE
+   ======================================================== */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 38px;
+  }
+
+  .curved-content-wrapper {
+    padding: 44px 20px;
+    border-radius: 34px 34px 0 0;
+    margin-top: -44px;
+    gap: 48px;
+  }
+
+  .split-story-section {
+    grid-template-columns: 1fr;
+  }
+
+  .story-image-card {
+    min-height: 320px;
+  }
+
+  .editor-workspace {
+    padding: 24px 18px;
+  }
+
+  .top-nav-container {
+    padding: 16px 20px;
+  }
+
+  .nav-left-buttons {
+    gap: 16px;
+  }
+
+  .nav-action-btn {
+    font-size: 10.5px;
+    padding: 2px 0;
+    letter-spacing: 1px;
+  }
+
+  .nav-brand-badge {
+    font-size: 11px;
+    padding: 6px 14px;
+  }
+}
+
+@media (max-width: 680px) {
+  .top-nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 12px;
+  }
+
+  .nav-center-logo {
+    order: 1;
+    width: 100%;
+    margin-bottom: 2px;
+  }
+
+  .nav-left-buttons {
+    order: 2;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .access-modal {
+    padding: 30px 22px 24px;
+  }
+}
+
+/* ========================================================
+   ZINE EDITORIAL SECTION: PAG-ALAY & SOCIAL MEDIAS
+   Aesthetic: Avant-garde Russian Art Catalog / Vintage Zine
+   Palette: Buttermilk Parchment (#FAF6DA), Vivid Red (#C51F1F)
+   ======================================================== */
+.zine-editorial-section {
+  position: relative;
+  width: 100%;
+  background-color: #f3eddd;
+  color: #1a1a1a;
+  padding: clamp(56px, 7vw, 96px) clamp(24px, 5vw, 64px) clamp(68px, 8vw, 112px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 20;
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+
+.zine-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(56px, 8vw, 96px);
+}
+
+/* DUAL TYPOGRAPHY HEADING: CONDENSED BOLD + FLOWING SCRIPT */
+.zine-heading {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  line-height: 0.86;
+}
+
+.zine-head-condensed {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(54px, 6.5vw, 84px);
+  color: #C51F1F;
+  letter-spacing: 0.5px;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.zine-head-script {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(48px, 6vw, 76px);
+  color: #C51F1F;
+  font-weight: 400;
+  line-height: 0.86;
+  margin-left: 2px;
+}
+
+/* ========================================================
+   UPPER BLOCK: PAG-ALAY & SOCMEDIAS
+   ======================================================== */
+.zine-upper-block {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
+  column-gap: clamp(32px, 6vw, 84px);
+  row-gap: 34px;
+  align-items: center;
+}
+
+/* Dedication copy and portrait collage form one editorial spread. */
+.zine-top-row {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.zine-title-col {
+  flex: 0 0 auto;
+}
+
+.zine-heading {
+  position: relative;
+}
+
+.zine-top-row .zine-heading::after {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin-top: 16px;
+  background: #C51F1F;
+}
+
+.zine-narrative-col {
+  width: 100%;
+  max-width: 590px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-left: 0;
+}
+
+.zine-narrative-p {
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1vw, 13px);
+  line-height: 1.8;
+  color: #262626;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+/* Layered portrait collage */
+.zine-portrait-row {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  height: clamp(340px, 40vw, 520px);
+  margin: 0;
+  align-self: center;
+}
+
+.zine-portrait-cards {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.zine-portrait-card {
+  position: absolute;
+  width: 59%;
+}
+
+.zine-portrait-card-steven {
+  top: 0;
+  left: 3%;
+  z-index: 1;
+  transform: rotate(-4deg);
+}
+
+.zine-portrait-card-beben {
+  right: 2%;
+  bottom: 0;
+  z-index: 2;
+  transform: rotate(4deg);
+}
+
+.zine-portrait-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: #e7dcc1;
+  overflow: hidden;
+  box-shadow: 10px 12px 0 #f3eddd, 12px 14px 0 rgba(127, 22, 22, 0.35), 0 24px 52px rgba(0, 0, 0, 0.17);
+  border: 8px solid #fffdf6;
+  border-radius: 3px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.zine-portrait-card-beben .zine-portrait-box {
+  aspect-ratio: 4 / 5;
+}
+
+.zine-portrait-box:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.14);
+}
+
+.zine-portrait-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  display: block;
+}
+
+.zine-portrait-card-steven .zine-portrait-image {
+  object-position: center 34%;
+}
+
+/* Bottom Row: Metadata on Left, Social Media on Right */
+.zine-meta-socmed-row {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(127, 22, 22, 0.25);
+}
+
+.zine-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #383838;
+}
+
+.zine-meta-info .meta-highlight {
+  font-weight: 700;
+  color: #C51F1F;
+}
+
+.zine-socmed-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 56px);
+  margin-left: auto;
+}
+
+.zine-socmed-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.8vw, 36px);
+  flex-wrap: wrap;
+}
+
+.zine-soc-link {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: none;
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.zine-soc-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #C51F1F;
+  transition: width 0.25s ease;
+}
+
+.zine-soc-link:hover {
+  color: #C51F1F;
+}
+
+.zine-soc-link:hover::after {
+  width: 100%;
+}
+
+.zine-poetry-col {
+  display: flex;
+  align-items: center;
+}
+
+.zine-poetry-tag-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.zine-poetry-tag-btn:hover {
+  color: #C51F1F;
+}
+
+/* ========================================================
+   LOWER BLOCK: GALERIA WITH STICKERS
+   ======================================================== */
+.zine-gallery-block {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  align-items: flex-start;
+  gap: clamp(32px, 5vw, 64px);
+  padding-top: clamp(36px, 5vw, 64px);
+  border-top: 1px solid rgba(127, 22, 22, 0.25);
+}
+
+/* ========================================================
+   PINAKA FOOTER: INSTAGRAM AT FACEBOOK
+   ======================================================== */
+.zine-bottom-footer {
+  width: 100%;
+  padding-top: clamp(28px, 3.5vw, 48px);
+  padding-bottom: clamp(24px, 3vw, 40px);
+  border-top: 1px solid rgba(127, 22, 22, 0.18);
+  margin-top: clamp(32px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zine-footer-socmed-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.5vw, 28px);
+}
+
+.zine-footer-link {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(11px, 1vw, 12.5px);
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: none;
+  position: relative;
+  padding: 4px 2px;
+  transition: color 0.2s ease;
+}
+
+.zine-footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--color-dark-red, #7f1616);
+  transition: width 0.25s ease;
+}
+
+.zine-footer-link:hover {
+  color: var(--color-dark-red, #7f1616);
+}
+
+.zine-footer-link:hover::after {
+  width: 100%;
+}
+
+.zine-footer-divider {
+  font-family: var(--font-mono, monospace);
+  color: rgba(127, 22, 22, 0.35);
+  font-size: 13px;
+  font-weight: 400;
+  user-select: none;
+}
+
+.zine-gallery-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.zine-gallery-desc {
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1.1vw, 13px);
+  line-height: 1.68;
+  color: #2b2b2b;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* Feature Badge in Eliza socmed section */
+.zine-id-feature-badge {
+  background: rgba(127, 22, 22, 0.05);
+  border: 1px dashed rgba(127, 22, 22, 0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+
+
+.zine-gallery-cards-row {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(24px, 3.5vw, 44px);
+  flex-wrap: wrap;
+}
+
+/* 3D Lanyard ID Badge Showcase Stage Wrap */
+.zine-lanyard-stage-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: calc(-1 * clamp(36px, 5vw, 64px)); /* Attaches directly to the section line gap */
+  position: relative;
+  width: 100%;
+}
+
+.lanyard-center-row {
+  justify-content: center;
+  width: 100%;
+}
+
+/* Photo Cards */
+.zine-photo-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.zine-photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+.zine-card-media-wrap {
+  overflow: hidden;
+  display: block;
+}
+
+.zine-photo-card.card-summer {
+  width: clamp(160px, 18vw, 220px);
+}
+
+.zine-photo-card.card-summer .zine-card-media-wrap {
+  aspect-ratio: 3 / 4;
+}
+
+.zine-photo-card.card-bw {
+  width: clamp(260px, 34vw, 440px);
+}
+
+.zine-photo-card.card-bw .zine-card-media-wrap {
+  aspect-ratio: 4 / 3;
+}
+
+.zine-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.zine-photo-card:hover .zine-card-img {
+  transform: scale(1.03);
+}
+
+/* ========================================================
+   Y2K / BRUTALIST SLAPPED STICKERS
+   ======================================================== */
+.zine-sticker-pill {
+  position: absolute;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  user-select: none;
+  cursor: default;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zine-sticker-pill:hover {
+  transform: scale(1.06) rotate(0deg) !important;
+}
+
+/* Sticker 1: Green Pill with red floral icon */
+.sticker-green {
+  bottom: -14px;
+  left: -14px;
+  background-color: #72a154;
+  border: 1.5px solid #203413;
+  border-radius: 24px;
+  transform: rotate(-4deg);
+}
+
+.sticker-green .sticker-icon {
+  color: #d11e1e;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.sticker-green .sticker-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2c0f;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+}
+
+/* Sticker Cluster on B&W photo: Layered badges */
+.zine-sticker-cluster {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+/* Sticker Cyan: Arrow + KATOTOHANAN */
+.sticker-cyan {
+  position: relative;
+  background-color: #6bc9b3;
+  border: 1.5px solid #14352e;
+  border-radius: 6px;
+  transform: rotate(-2deg);
+  padding: 5px 12px;
+}
+
+.sticker-cyan .sticker-icon {
+  color: #0d2923;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.sticker-cyan .sticker-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  color: #0d2923;
+  letter-spacing: 1.4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Sticker Olive: Red Flower + TAPANG AT LAYA */
+.sticker-olive {
+  position: relative;
+  background-color: #405728;
+  border: 1.5px solid #19270e;
+  border-radius: 6px;
+  transform: rotate(2deg);
+  padding: 5px 12px;
+  margin-top: -3px;
+}
+
+.sticker-olive .sticker-icon {
+  color: #f03030;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.sticker-olive .sticker-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  color: #a7e96b;
+  letter-spacing: 1.4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN FOR ZINE SECTION
+   ======================================================== */
+@media (max-width: 960px) {
+  .zine-upper-block {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.8fr);
+    column-gap: 28px;
+  }
+
+  .zine-top-row {
+    gap: 24px;
+  }
+
+  .zine-narrative-col {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .zine-portrait-row {
+    height: clamp(300px, 43vw, 420px);
+  }
+
+  .zine-portrait-cards {
+    width: 100%;
+  }
+
+  .zine-gallery-block {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .zine-gallery-cards-row {
+    justify-content: center;
+  }
+
+  .zine-meta-socmed-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .zine-socmed-group {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 580px) {
+  .zine-upper-block {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+  }
+
+  .zine-top-row {
+    gap: 22px;
+  }
+
+  .zine-narrative-col {
+    gap: 12px;
+  }
+
+  .zine-portrait-row {
+    height: 340px;
+    margin: 4px 0 12px;
+  }
+
+  .zine-portrait-card {
+    width: 58%;
+  }
+
+  .zine-portrait-card-steven {
+    left: 5%;
+  }
+
+  .zine-portrait-card-beben {
+    right: 4%;
+    bottom: 0;
+    margin: 0;
+    transform: rotate(4deg);
+  }
+
+  .zine-portrait-cards {
+    width: 100%;
+  }
+
+  .zine-gallery-cards-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .zine-photo-card.card-summer,
+  .zine-photo-card.card-bw {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .zine-sticker-cluster {
+    right: 0px;
+    bottom: -18px;
+  }
+
+  .sticker-green {
+    left: 0px;
+    bottom: -16px;
+  }
+
+  .zine-socmed-links {
+    gap: 16px;
+  }
+}
